@@ -1,7 +1,7 @@
 # Namad
 
 ## Project Proposal
-* Namad is serverless app built with React in the frontend and AWS in the backend.
+* Namad is serverless app built with a React frontend and serverless AWS backend.
 * This app aims to safely connect hitchhikers or individuals looking to travel long distances with drivers going the same way.
 
 ## Technologies and Tools
