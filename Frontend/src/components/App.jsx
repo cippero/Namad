@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+// import { Link } from "react-router-dom";
+import styled, { injectGlobal } from 'styled-components';
+import Navbar from './Navbar';
+import Content from './Content';
+import Footer from './Footer';
 
-const Test = styled.h1`
-font-size: 3.5em;
-text-align: center;
-color: palevioletred;
+injectGlobal`
+    body {
+        margin: 0;
+    }
+`
+
+const Wrapper = styled.div`
+    text-align: center;
+    color: palevioletred;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `;
 
-export class App extends Component {
+export default class App extends Component {
     render() {
         return (
-            <Test>
-                Hello World
-            </Test>
+            <Wrapper>
+                <Navbar />
+                <Content />
+                <Footer />
+            </Wrapper>
         );
     }
 }
-export default App;
