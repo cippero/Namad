@@ -19,7 +19,7 @@ export default class Footer extends Component {
         return (
             <Test>
                 Footer
-            </Test> 
+            </Test>
         );
     }
 }

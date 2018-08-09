@@ -32,10 +32,10 @@ export default class Navbar extends Component {
         return (
             <Bar>
                 <LogoLink to="/">Namad</LogoLink>
-                <StyledLink to="/a">Link1</StyledLink>
+                <StyledLink to="/testing">Link1</StyledLink>
                 <StyledLink to="/b">Link2</StyledLink>
                 <StyledLink to="/c">Link3</StyledLink>
-            </Bar> 
+            </Bar>
         );
     }
 }
