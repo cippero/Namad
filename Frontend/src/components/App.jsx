@@ -12,7 +12,6 @@ injectGlobal`
 `
 
 const Wrapper = styled.div`
-    text-align: center;
     color: palevioletred;
     height: 100%;
     display: flex;
