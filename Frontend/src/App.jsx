@@ -1,24 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import styled, { injectGlobal, ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import Routes from "./Routes";
 
-const theme = {
-    fontSize: '1.75em',
-    color: '#666',
-    backgroundColor: 'white',
-    margin: '75px',
-    padding: '25px',
-    border: '1px solid black',
-    borderRadius: '5px'
-}
-
-injectGlobal`
-    body, html {
-        margin: 0;
-        height: 100%;
-    }
-`
 const Wrapper = styled.div`
     color: palevioletred;
     min-height: 100%;
@@ -54,18 +38,18 @@ const LogoLink = styled(Link)`
     flex: 1;
 `;
 
-const Footer = styled.div`
-    font-size: 1em;
-    color: #add;
-    background-color: #38403f;
-    height: 10vh;
-    width: 100%;
-    position: relative;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
+// const Footer = styled.div`
+//     font-size: 1em;
+//     color: #add;
+//     background-color: #38403f;
+//     height: 10vh;
+//     width: 100%;
+//     position: relative;
+//     bottom: 0;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// `;
 
 export default class App extends Component {
     render() {
@@ -74,15 +58,13 @@ export default class App extends Component {
                 <Navbar>
                     <LogoLink to="/">Namad</LogoLink>
                     <StyledLink to="/testing">Link1</StyledLink>
-                    <StyledLink to="/b">Link2</StyledLink>
+                    <StyledLink to="/login">Login</StyledLink>
                     <StyledLink to="/c">Link3</StyledLink>
                 </Navbar>
-                <ThemeProvider theme={theme}>
-                    <Routes />
-                </ThemeProvider>
-                <Footer>
+                <Routes />
+                {/* <Footer>
                     Footer
-                </Footer>
+                </Footer> */}
             </Wrapper>
         );
     }
