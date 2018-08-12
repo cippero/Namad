@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { Auth } from "aws-amplify";
 import styled from 'styled-components';
 import Routes from "./Routes";
 
@@ -38,6 +39,18 @@ const LogoLink = styled(Link)`
     flex: 1;
 `;
 
+const StyledAnchor = styled.a`
+    font-size: 1.25em;
+    text-decoration: none;
+    color: black;
+    margin: 0 10px;
+
+    &:hover {
+        color: gray;
+        cursor: pointer;
+    }
+`;
+
 // const Footer = styled.div`
 //     font-size: 1em;
 //     color: #add;
@@ -51,17 +64,56 @@ const LogoLink = styled(Link)`
 //     align-items: center;
 // `;
 
-export default class App extends Component {
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isAuthenticated: false,
+            isAuthenticating: true
+        };
+    }
+
+    async componentDidMount() {
+        try {
+            if (await Auth.currentSession()) { this.userHasAuthenticated(true); }
+        } catch (e) {
+            if (e !== 'No current user') { alert(e); }
+        }
+        this.setState({ isAuthenticating: false });
+    }
+
+    userHasAuthenticated = authenticated => {
+        this.setState({ isAuthenticated: authenticated });
+    }
+
+    handleLogout = async event => {
+        await Auth.signOut();
+        this.userHasAuthenticated(false);
+        this.props.history.push("/login");
+    }
+
     render() {
+        const childProps = {
+            isAuthenticated: this.state.isAuthenticated,
+            userHasAuthenticated: this.userHasAuthenticated
+        };
         return (
+            !this.state.isAuthenticating &&
             <Wrapper>
                 <Navbar>
                     <LogoLink to="/">Namad</LogoLink>
-                    <StyledLink to="/testing">Link1</StyledLink>
-                    <StyledLink to="/login">Login</StyledLink>
-                    <StyledLink to="/c">Link3</StyledLink>
+                    
+                        {this.state.isAuthenticated
+                            ? <StyledAnchor type="button" onClick={this.handleLogout}>Logout</StyledAnchor>
+                            : <div>
+                                    <StyledLink to="/login">Login</StyledLink>
+                                    <StyledLink to="/testing">Testing</StyledLink>
+                                    <StyledLink to="/c">Link2</StyledLink>
+                            </div>
+                        }
+                    
                 </Navbar>
-                <Routes />
+                <Routes childProps={childProps} />
                 {/* <Footer>
                     Footer
                 </Footer> */}
@@ -69,3 +121,5 @@ export default class App extends Component {
         );
     }
 }
+
+export default withRouter(App);

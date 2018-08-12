@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from 'styled-components';
-// import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Auth } from 'aws-amplify';
+// import LoaderButton from '../components/LoaderButton';
 
 const Content = styled.div`
     font-size: ${props => props.theme.fontSize};
@@ -21,6 +22,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false,
             email: "",
             password: ""
         };
@@ -31,12 +33,23 @@ export default class Login extends Component {
     }
 
     handleChange = (e) => {
-        console.log(e.target.value);
+        this.setState({[e.target.type]: e.target.value});
+        this.validateForm();
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('submit');
+    handleSubmit = async event => {
+        event.preventDefault();
+        this.setState({ isLoading: true });
+        try {
+            await Auth.signIn(this.state.email, this.state.password);
+            this.props.userHasAuthenticated(true);
+            // console.log("Logged in");
+            this.props.history.push("/");
+        } catch (e) {
+            alert(e.message);
+            console.log(e.message);
+            this.setState({ isLoading: false });
+        }
     }
 
     render() {
@@ -45,7 +58,7 @@ export default class Login extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <input  type="email" 
                             placeholder="enter email"  
-                            defaultValue={this.state.email} 
+                            defaultValue="gil@weinstock.com" 
                             onChange={this.handleChange}
                             autoFocus />
 
@@ -55,8 +68,16 @@ export default class Login extends Component {
                             onChange={this.handleChange} />
 
                     <input  type="submit" 
-                            value="Login" 
-                            disabled={!this.validateForm()} />
+                            value={!this.state.isLoading ? "Login" : "Logging in…"} 
+                            disabled={!this.validateForm() || this.state.isLoading} />
+                    {/* <LoaderButton
+                        block
+                        disabled={!this.validateForm() || isLoading}
+                        type="submit"
+                        isLoading={this.state.isLoading}
+                        text="Login"
+                        loadingText="Logging in…"
+                    /> */}
                 </form>
             </Content>
         );
