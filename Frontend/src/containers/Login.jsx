@@ -22,9 +22,10 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
+            // isLoading: false,
             email: "",
-            password: ""
+            password: "",
+            buttonText: "Login"
         };
     }
 
@@ -33,22 +34,26 @@ export default class Login extends Component {
     }
 
     handleChange = (e) => {
-        this.setState({[e.target.type]: e.target.value});
+        this.setState({ [e.target.id]: e.target.value });
         this.validateForm();
     }
 
     handleSubmit = async event => {
         event.preventDefault();
-        this.setState({ isLoading: true });
+        // this.setState({ isLoading: true });
+        this.setState({ buttonText: "Logging in..." });
         try {
             await Auth.signIn(this.state.email, this.state.password);
             this.props.userHasAuthenticated(true);
+            this.setState({ buttonText: "Success!" });
             // console.log("Logged in");
-            this.props.history.push("/");
+            setTimeout(() => { this.props.history.push("/"); }, 500);
+            
         } catch (e) {
             alert(e.message);
             console.log(e.message);
-            this.setState({ isLoading: false });
+            // this.setState({ isLoading: false });
+            this.setState({ buttonText: "Login" });
         }
     }
 
@@ -56,20 +61,23 @@ export default class Login extends Component {
         return (
             <Content>
                 <form onSubmit={this.handleSubmit}>
-                    <input  type="email" 
+                    <input  id="email"
+                            type="email" 
                             placeholder="enter email"  
                             defaultValue="gil@weinstock.com" 
                             onChange={this.handleChange}
                             autoFocus />
 
-                    <input  type="password" 
+                    <input  id="password"
+                            type="password" 
                             placeholder="enter password" 
                             defaultValue={this.state.password} 
                             onChange={this.handleChange} />
 
                     <input  type="submit" 
-                            value={!this.state.isLoading ? "Login" : "Logging in…"} 
-                            disabled={!this.validateForm() || this.state.isLoading} />
+                            // value={!this.state.isLoading ? "Login" : "Logging in…"} 
+                            value={this.state.buttonText}
+                            disabled={!this.validateForm() || this.state.buttonText !== "Login"} />
                     {/* <LoaderButton
                         block
                         disabled={!this.validateForm() || isLoading}

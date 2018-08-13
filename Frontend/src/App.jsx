@@ -107,6 +107,7 @@ class App extends Component {
                             ? <StyledAnchor type="button" onClick={this.handleLogout}>Logout</StyledAnchor>
                             : <div>
                                     <StyledLink to="/login">Login</StyledLink>
+                                    <StyledLink to="/signup">Signup</StyledLink>
                                     <StyledLink to="/testing">Testing</StyledLink>
                                     <StyledLink to="/c">Link2</StyledLink>
                             </div>

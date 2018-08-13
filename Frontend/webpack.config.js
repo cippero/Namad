@@ -1,5 +1,12 @@
 require("babel-polyfill");
 const path = require('path');
+// const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const htmlWebpackPlugin = new HtmlWebpackPlugin({
+//     template: path.join(__dirname, "src/index.html"),
+//     filename: "./index.html"
+// });
+
 
 module.exports = {
     entry: ["babel-polyfill", path.resolve(__dirname, 'src', 'index.jsx')],
@@ -23,6 +30,17 @@ module.exports = {
                 }
             }
         ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ],
+    // plugins: [htmlWebpackPlugin, new webpack.DefinePlugin({
+    //     'process.env': { 'NODE_ENV': JSON.stringify('production') }
+    // })],
+    resolve: {
+        extensions: [".js", ".jsx"]
     },
     devServer: {
         contentBase: './src',
