@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from 'styled-components';
 import { Auth } from "aws-amplify";
-// import LoaderButton from "../components/LoaderButton";
 
 const Content = styled.div`
     font-size: ${props => props.theme.fontSize};
@@ -23,7 +22,6 @@ export default class Signup extends Component {
         super(props);
 
         this.state = {
-            // isLoading: false,
             email: "",
             password: "",
             name: "",
