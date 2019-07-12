@@ -25,7 +25,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+      Resource: "arn:aws:dynamodb:us-west-2:*:*"
 
 functions:
   hello:
@@ -38,7 +38,7 @@ functions:
     handler: create.main
     events:
       - http:
-          path: rides
+          path: /dev/rides
           method: post
           cors: true
           authorizer: aws_iam

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { API } from "aws-amplify";
+import styled from 'styled-components';
 import config from "../config";
+import { s3Upload } from "../libs/awsLib";
 
 const Content = styled.div`
     font-size: ${props => props.theme.fontSize};
@@ -40,11 +43,33 @@ export default class NewRide extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
+
         if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
             alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
             return;
         }
         this.setState({ buttonText: "Creating…" });
+        
+        try {
+            const attachment = this.file
+                ? await s3Upload(this.file)
+                : null;
+        
+            await this.createRide({
+                attachment,
+                content: this.state.content
+            });
+        } catch (e) {
+            alert(e);
+            console.log(e);
+            this.setState({ buttonText: "Create" });
+        }
+    }
+        
+    createRide(ride) {
+        return API.post("namad", "rides", {
+            body: ride
+        });
     }
 
     render() {

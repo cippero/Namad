@@ -44,7 +44,8 @@ module.exports = {
     },
     devServer: {
         contentBase: './src',
-        publicPath: '/output'
+        publicPath: '/output',
+        historyApiFallback: true
     },
     mode: "development"
 };
